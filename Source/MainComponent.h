@@ -17,8 +17,8 @@ struct ComplexEvent
 
 struct KeyEvent
 {
-	int keyCode = 0;
-	bool isDown = false;
+    int keyCode = 0;
+    bool isDown = false;
 };
 
 class MainComponent : public juce::Component
@@ -29,8 +29,8 @@ public:
 private:
     tap::EventSystem eventSystem;
 
-	std::unique_ptr<tap::Handler<KeyEvent>> keyHandler;
-	
-	Keyboard* keyboard;
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
+    std::unique_ptr<tap::Handler<KeyEvent>> keyHandler;
+
+    Keyboard* keyboard;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
