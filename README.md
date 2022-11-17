@@ -1,35 +1,43 @@
-# JUCE Event System Prototype
+# Simple Type Event System
 
-This is a prototype of an event system where the event channels are type based. So for each EventSystem instance any Event type will be sent / received on the same channel.
+Simple event system where the event channels are type based. 
 
-You can use any type you like as the event payload and a handler will be automatically removed if you don't keep it alive.
+For each EventSystem instance any Event Type will be sent and received on the same channel.
+
+Adding a listener for an event returns a token / subscription to control the listener lifetime. RAII style.
+
+## What makes it simple?
+
+Single header. No threads. No message loop. No listener base class to inherit from.
+
+Event sending causes synchronous dispatch. Don't use this if you need asynchronous events.
+
+Event messages are always sent as copies.
 
 ## Usage examples
 
-```cpp
-    struct SimpleEvent
-    {
-        juce::String data {};
-    };
+The examples folder has a couple of demos you can build and run, including a JUCE demo.
 
-    auto mainHandler = eventSystem.add<SimpleEvent>([](SimpleEvent event)
-    {
-        DBG("Main Handler : " + event.data);
+```cpp
+    norm::EventSystem eventSystem;
+
+    auto subscription = eventSystem.add<std::string>([](std::string message) {
+        std::cout << "Main Handler : " << message << "\n";
     });
 
-    eventSystem.send(SimpleEvent{"Event One"});
+    eventSystem.send(std::string { "Event One" });
 
-    struct ComplexEvent
-    {
+    /**
+     * Use any copyable type as an event message.
+     */
+    struct ComplexEvent {
         int id = 0;
-        juce::String name {};
+        std::string name{};
     };
-
-    auto complexHandler = eventSystem.add<ComplexEvent>(
-        [](auto event)
-        {
-            DBG("Complex Event " + juce::String(event.id) + " -> " + event.name);
-        });
-
-    eventSystem.send(ComplexEvent{23, "Normalised"});
+    
+    auto complexSubscription = eventSystem.add<ComplexEvent>([](auto event) {
+        std::cout << "Complex Event " << event.id << " -> " << event.name << "\n";
+    });
+    
+    eventSystem.send(ComplexEvent{ 23, "Normalised" });
 ```

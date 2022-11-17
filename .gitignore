@@ -1,12 +1,6 @@
 *.user
 
-SDKs
-
-build
-build-ios
-
-cmake-build-debug
-cmake-build-release
+cmake-build-*/
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
@@ -28,4 +22,3 @@ Makefile
 
 workspace.xml
 xcuserdata
-/Apps/SerumStandAlone/Builds/MacOSX/RecentFilesMenuTemplate.nib
