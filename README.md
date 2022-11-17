@@ -8,7 +8,9 @@ Adding a listener for an event returns a Subscription to control the listener li
 
 ## What makes it simple?
 
-Single header. No threads. No message loop. No listener base class to inherit from.
+Single header - just #include "EventSystem.h"
+
+No threads. No message loop. No listener base class to inherit from.
 
 Event sending causes synchronous dispatch. Don't use this if you need asynchronous events.
 
