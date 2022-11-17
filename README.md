@@ -4,7 +4,7 @@ Simple event system where the event channels are type based.
 
 For each EventSystem instance any Event Type will be sent and received on the same channel.
 
-Adding a listener for an event returns a token / subscription to control the listener lifetime. RAII style.
+Adding a listener for an event returns a Subscription to control the listener lifetime. RAII style.
 
 ## What makes it simple?
 
