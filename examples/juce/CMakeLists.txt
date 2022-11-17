@@ -34,12 +34,6 @@ CPMAddPackage(
         GITHUB_REPOSITORY juce-framework/JUCE
         GIT_TAG origin/master)
 
-CPMAddPackage (
-    NAME raw_keyboard_module
-    GITHUB_REPOSITORY izzyreal/juce-raw-keyboard-input-module
-    GIT_TAG origin/main
-)
-
 juce_add_gui_app(EventSystem)
 
 set(SourceFolders
@@ -68,7 +62,6 @@ target_include_directories(EventSystem PRIVATE "${SourceFolders}")
 target_link_libraries(EventSystem
     PRIVATE
     ${JUCE_DEPENDENCIES}
-    raw_keyboard_input
     PUBLIC
     juce::juce_recommended_config_flags
     juce::juce_recommended_lto_flags
