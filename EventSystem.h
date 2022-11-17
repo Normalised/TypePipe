@@ -11,11 +11,18 @@
  *
  * Make an EventSystem, add a listener, send messages.
  *
- * EventSystem eventSystem;
+ * norm::EventSystem eventSystem;
  * auto subscription = eventSystem.add<std::string>([](std::string message) {
  *      std::cout << message << "\n";
  * });
  * eventSystem.send("Testing Testing 1 2 3");
+ *
+ * ---
+ *
+ * Subscription type is available as norm::Subscription<EventType>
+ * for places you cant or dont want to use auto.
+ * e.g.
+ * norm::Subscription<std::string> mySubscription;
  */
 namespace norm {
 
