@@ -2,6 +2,8 @@
 
 MainComponent::MainComponent() {
     setSize(800, 600);
+    addAndMakeVisible(label);
+    label.setBounds(10,10,300,100);
 
     /**
      * This shows how you can control the lifetime of a subscription
@@ -10,45 +12,46 @@ MainComponent::MainComponent() {
      * Main Subscription receives all 3 events.
      * Scoped Subscription only receives one event.
      */
-    auto mainSubscription = eventSystem.add<SimpleEvent>(
-            [](SimpleEvent event) {
+    auto mainSubscription = pipe.add<SimpleEvent>(
+            [this](SimpleEvent event) {
                 DBG("Main Sub : " + event.data);
+                label.setText(event.data, juce::dontSendNotification);
             });
 
-    eventSystem.send(SimpleEvent{"Event One"});
+    pipe.send(SimpleEvent{"Event One"});
 
     {
-        auto scopedSubscription = eventSystem.add<SimpleEvent>(
+        auto scopedSubscription = pipe.add<SimpleEvent>(
                 [](SimpleEvent event) {
                     DBG("Scoped Sub : " + event.data);
                 });
 
-        eventSystem.send(SimpleEvent{"Event Two : during local scope"});
+        pipe.send(SimpleEvent{"Event Two : during local scope"});
 
         DBG("End Local Scope");
     }
 
-    eventSystem.send(SimpleEvent{"Event Three : after local scope"});
+    pipe.send(SimpleEvent{"Event Three : after local scope"});
 
     /**
      * Event types can be as complex as you like.
      */
-    auto complexHandler = eventSystem.add<ComplexEvent>(
+    auto complexHandler = pipe.add<ComplexEvent>(
             [](auto event) {
                 DBG("Complex Event " + juce::String(event.id) + " -> " + event.name);
             });
 
-    eventSystem.send(ComplexEvent{23, "Normalised"});
+    pipe.send(ComplexEvent{23, "Normalised"});
 
     /**
      * Its easy to
      */
-    clickHandler = eventSystem.add<juce::Point<int>>(
+    clickHandler = pipe.add<juce::Point<int>>(
             [](juce::Point<int> position) {
                 DBG("Clicked at " + juce::String(position.x) + "," + juce::String(position.y));
             });
 }
 
 void MainComponent::mouseDown(const juce::MouseEvent &event) {
-    eventSystem.send(event.getMouseDownPosition());
+    pipe.send(event.getMouseDownPosition());
 }

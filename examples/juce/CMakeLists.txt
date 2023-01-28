@@ -44,7 +44,7 @@ set(SourceFiles
     Source/Main.cpp
     Source/MainComponent.cpp
     Source/MainComponent.h
-    ../../EventSystem.h
+        ../../TypePipe.h
 )
 
 set(JUCE_DEPENDENCIES

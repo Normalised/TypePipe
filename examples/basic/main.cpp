@@ -1,8 +1,8 @@
 #include <iostream>
-#include "../../EventSystem.h"
+#include "../../TypePipe.h"
 
 int main() {
-    norm::EventSystem eventSystem;
+    norm::TypePipe eventSystem;
 
     auto subscription = eventSystem.add<std::string>([](std::string message) {
         std::cout << "Main Handler : " << message << "\n";

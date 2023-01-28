@@ -1,7 +1,7 @@
 #pragma once
 
 #include <juce_gui_basics/juce_gui_basics.h>
-#include "../../../EventSystem.h"
+#include "../../../TypePipe.h"
 
 struct SimpleEvent
 {
@@ -22,8 +22,10 @@ public:
 private:
     void mouseDown(const juce::MouseEvent &event) override;
 
-    norm::EventSystem eventSystem;
+    norm::TypePipe pipe;
     norm::Subscription<juce::Point<int>> clickHandler;
+
+    juce::Label label;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
