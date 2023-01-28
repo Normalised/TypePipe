@@ -9,13 +9,13 @@
 /**
  * Simple type-based event system.
  *
- * Make an EventSystem, add a listener, send messages.
+ * Make a TypePipe, add a listener, send messages.
  *
- * norm::EventSystem eventSystem;
- * auto subscription = eventSystem.add<std::string>([](std::string message) {
+ * norm::TypePipe typePipe;
+ * auto subscription = typePipe.add<std::string>([](std::string message) {
  *      std::cout << message << "\n";
  * });
- * eventSystem.send("Testing Testing 1 2 3");
+ * typePipe.send("Testing Testing 1 2 3");
  *
  * ---
  *
@@ -30,7 +30,7 @@ namespace norm {
         virtual ~EventPipeBase() = default;
     };
 
-    struct EventSystem;
+    struct TypePipe;
 
     /**
      * Subscription lifetime control, RAII style.
@@ -38,7 +38,7 @@ namespace norm {
      */
     template<typename EventType>
     struct Handler {
-        Handler(EventSystem *theSystem, std::function<void(EventType)> theFn)
+        Handler(TypePipe *theSystem, std::function<void(EventType)> theFn)
                 : system(theSystem), fn(std::move(theFn)) {
         }
 
@@ -52,7 +52,7 @@ namespace norm {
             return this == &other;
         }
 
-        EventSystem *system = nullptr;
+        TypePipe *system = nullptr;
         std::function<void(EventType)> fn;
     };
 
@@ -85,7 +85,7 @@ namespace norm {
 
     template<typename EventType> using Subscription = std::unique_ptr<Handler<EventType>>;
 
-    struct EventSystem {
+    struct TypePipe {
         /**
          * Add a listener for EventType messages.
          * The listener will be removed when the returned handle is destructed.
